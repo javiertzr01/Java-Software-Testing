@@ -2,7 +2,7 @@
 **Name: Javier Teo
 Student ID: 1005033**
 
-The goal of this software application is to compare 2 CSV files and output the missing/different entries in a new CSV file.  
+The goal of this software application is to compare 2 CSV files and output the mismatched entries in a new CSV file.  
 The entirety of this code uses Java and does not require any external libraries at this point in time.  
 Note: At this point in time, this only works for the test cases provided (With regards to headings etc.)  
 ## Use Case Diagram
