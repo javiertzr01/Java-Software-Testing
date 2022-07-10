@@ -61,25 +61,15 @@ public class App {
 
         try {
             FileWriter csvWriter = new FileWriter("exceptions.csv");
-            csvWriter.append("File 1 Customer ID#");
+            csvWriter.append("Customer ID#");
             csvWriter.append(",");
-            csvWriter.append("File 1 Account No.");
+            csvWriter.append("Account No.");
             csvWriter.append(",");
-            csvWriter.append("File 1 Currency");
+            csvWriter.append("Currency");
             csvWriter.append(",");
-            csvWriter.append("File 1 Type");
+            csvWriter.append("Type");
             csvWriter.append(",");
-            csvWriter.append("File 1 Balance");
-            csvWriter.append(",");
-            csvWriter.append("File 2 Customer ID#");
-            csvWriter.append(",");
-            csvWriter.append("File 2 Account No.");
-            csvWriter.append(",");
-            csvWriter.append("File 2 Currency");
-            csvWriter.append(",");
-            csvWriter.append("File 2 Type");
-            csvWriter.append(",");
-            csvWriter.append("File 2 Balance");
+            csvWriter.append("Balance");
             csvWriter.append("\n");
 
             // Loop through file 1
@@ -91,7 +81,7 @@ public class App {
                         exceptionsList.add(i);
                         // Write to File
                         csvWriter.append(String.join(",", f1Accounts.get(i).asList()));
-                        csvWriter.append(",");
+                        csvWriter.append("\n");
                         csvWriter.append(String.join(",", f2Accounts.get(i).asList()));
                         csvWriter.append("\n");
                     }
@@ -102,7 +92,7 @@ public class App {
                     String[] nullEntry = { "null", "null", "null", "null", "null" };
                     // Write to File
                     csvWriter.append(String.join(",", f1Accounts.get(i).asList()));
-                    csvWriter.append(",");
+                    csvWriter.append("\n");
                     csvWriter.append(String.join(",", nullEntry));
                     csvWriter.append("\n");
                 }
@@ -118,7 +108,7 @@ public class App {
                             exceptionsList.add(i);
                             // Write to File
                             csvWriter.append(String.join(",", f1Accounts.get(i).asList()));
-                            csvWriter.append(",");
+                            csvWriter.append("\n");
                             csvWriter.append(String.join(",", f2Accounts.get(i).asList()));
                             csvWriter.append("\n");
                         }
@@ -130,7 +120,7 @@ public class App {
                     String[] nullEntry = { "null", "null", "null", "null", "null" };
                     // Write to File
                     csvWriter.append(String.join(",", nullEntry));
-                    csvWriter.append(",");
+                    csvWriter.append("\n");
                     csvWriter.append(String.join(",", f2Accounts.get(i).asList()));
                     csvWriter.append("\n");
                 }
