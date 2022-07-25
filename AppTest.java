@@ -7,6 +7,18 @@ import org.junit.Test;
 
 public class AppTest {
     @Test
+    public void testCheckFileExistsPass(){
+        String file = "C:\\Users\\Javier\\Documents\\GitHub\\Software-Testing-Mini-Campaign\\sample_file_1_test.csv";
+        assertTrue(App.checkFileExists(file));
+    }
+
+    @Test
+    public void testCheckFileExistsFail() {
+        String file = "12345";
+        assertFalse(App.checkFileExists(file));
+    }
+
+    @Test
     public void testGetNextLine(){
         String file = "C:\\Users\\Javier\\Documents\\GitHub\\Software-Testing-Mini-Campaign\\sample_file_1_test.csv";
         String result = "hello";

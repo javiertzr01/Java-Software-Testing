@@ -5,6 +5,11 @@ import java.util.Arrays;
 
 public class App {
 
+    static boolean checkFileExists(String fileName){
+        File file = new File(fileName);
+        return file.exists();
+    }
+
     static String getNextLine(BufferedReader reader) {
         try {
             String line = reader.readLine();
@@ -147,6 +152,11 @@ public class App {
         String fileName1 = "sample_file_1.csv";
         String fileName2 = "sample_file_2.csv";
         String uniqueCombi = "Customer ID#, Account No., Currency, Type";
+
+        if (!checkFileExists(fileName1) || !checkFileExists(fileName2)){
+            System.out.println("File does not exist");
+            return;
+        }
 
 
         String[] uniqueCombiArray = uniqueCombi.split(",");
