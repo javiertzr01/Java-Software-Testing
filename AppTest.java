@@ -7,15 +7,21 @@ import org.junit.Test;
 
 public class AppTest {
     @Test
-    public void testCheckFileExistsPass(){
+    public void testCheckFileValidPass(){
         String file = "C:\\Users\\Javier\\Documents\\GitHub\\Software-Testing-Mini-Campaign\\sample_file_1_test.csv";
-        assertTrue(App.checkFileExists(file));
+        assertTrue(App.checkFileValid(file));
     }
 
     @Test
-    public void testCheckFileExistsFail() {
+    public void testCheckFileValidFail() {
         String file = "12345";
-        assertFalse(App.checkFileExists(file));
+        assertFalse(App.checkFileValid(file));
+    }
+
+    @Test
+    public void testCheckFileInvalidFileExtension() {
+        String file = "C:\\Users\\Javier\\Documents\\GitHub\\Software-Testing-Mini-Campaign\\sample_file_1_test.xlsx";
+        assertFalse(App.checkFileValid(file));
     }
 
     @Test
