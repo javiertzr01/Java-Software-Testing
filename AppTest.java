@@ -19,6 +19,18 @@ public class AppTest {
     }
 
     @Test
+    public void testCheckFileInvalidPathFail() {
+        String file = "C:\\invalid";
+        assertFalse(App.checkFileValid(file));
+    }
+
+    @Test
+    public void testCheckFileValidFileInvalidPath() {
+        String file = "sample_file_1_test.csv";
+        assertFalse(App.checkFileValid(file));
+    }
+
+    @Test
     public void testCheckFileInvalidFileExtension() {
         String file = "C:\\Users\\Javier\\Documents\\GitHub\\Software-Testing-Mini-Campaign\\sample_file_1_test.xlsx";
         assertFalse(App.checkFileValid(file));
