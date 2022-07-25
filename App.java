@@ -14,6 +14,9 @@ public class App {
             if (line.indexOf("ï»¿") == 0) {
                 line = line.replaceAll("ï»¿", "");
             }
+            if (line.indexOf("﻿") == 0) {
+                line = line.replaceAll("﻿", "");
+            }
             return line;
         } catch (IOException e) {
             e.printStackTrace();
@@ -24,8 +27,8 @@ public class App {
     static HashMap<String, String> parseRow(String[] headers, String[] data){
         // Create hashmap for an instance
         HashMap<String, String> entry = new HashMap<>();
-        for (String i: headers){
-            entry.put(i, data[Arrays.asList(headers).indexOf(i)]);
+        for (int i = 0; i<headers.length; i++){
+            entry.put(headers[i], data[i]);
         }
         return entry;
     }
