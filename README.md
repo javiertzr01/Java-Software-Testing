@@ -1,6 +1,3 @@
-# Note: #  
-**At this point in time, I realized that I misinterpreted the instructions. Hence, I just redid my code and just starting on my testing. Apologies for the late submission.**
-
 ## Software-Testing-Mini-Campaign
 **Name: Javier Teo
 Student ID: 1005033**
