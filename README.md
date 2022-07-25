@@ -34,7 +34,7 @@ Boundary Value Analysis:
 (Assuming file exists)  
  - Middle Value: `accepted_file.csv`  
  - Boundary Value:   
-		-	Nil  
+		-	Max length input  
 
 > **Invalid FileType**  
 > `*.< extension >` where extension is not a `.csv` or `*` is not a name of an existing file  
