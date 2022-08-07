@@ -39,16 +39,14 @@ public class App {
         return null;
     }
 
-    static HashMap<String, String> parseRow(String[] headers, String[] data) {
-        // Create hashmap for an instance
-        HashMap<String, String> entry = new HashMap<>();
-        for (int i = 0; i < headers.length; i++) {
-            entry.put(headers[i], data[i]);
-        }
+    static Entry parseRow(String[] headers, String[] data, String file) {
+        // Create entry for an instance
+
+        Entry entry = new Entry(headers, data, file);
         return entry;
     }
 
-    static ArrayList<HashMap<String, String>> readFile(String file) {
+    static ArrayList<Entry> readFile(String file) {
         try {
             BufferedReader csvReader = new BufferedReader(new FileReader(file));
             // Read headers
@@ -56,12 +54,12 @@ public class App {
 
             String row;
 
-            ArrayList<HashMap<String, String>> parsedFile = new ArrayList<>();
+            ArrayList<Entry> parsedFile = new ArrayList<>();
 
             // Start parsing
             while ((row = getNextLine(csvReader)) != null) {
                 String[] data = row.split(",");
-                HashMap<String, String> entry = parseRow(headers, data);
+                Entry entry = parseRow(headers, data, file);
                 // Put each entry into arraylist
                 parsedFile.add(entry);
                 // break;
@@ -77,12 +75,8 @@ public class App {
         return null;
     }
 
-    static String[] getFileHeader(HashMap<String, String> entry) {
-        ArrayList<String> ret = new ArrayList<>();
-        for (String i : entry.keySet()) {
-            ret.add(i);
-        }
-        return ret.toArray(new String[0]);
+    static String[] getFileHeader(Entry entry) {
+        return entry.getHeader();
     }
 
     static boolean checkSameHeaders(String[] header1, String[] header2) {
@@ -100,61 +94,51 @@ public class App {
         return result;
     }
 
-    static boolean compareUniqueCombi(HashMap<String, String> entry1, HashMap<String, String> entry2,
+    static boolean compareUniqueCombi(Entry entry1, Entry entry2,
             String[] uniqueCombi) {
         if (entry1.equals(entry2)) {
             return true;
         }
-        boolean check = true;
-        for (String key : uniqueCombi) {
-            String key1 = entry1.get(key);
-            String key2 = entry2.get(key);
-            if (key1.equals(key2) == false) {
-                check = false;
-                break;
-            }
-        }
-        if (check == true) {
+        if (entry1.equals(entry2, uniqueCombi)){
             return true;
         }
         return false;
     }
 
-    static ArrayList<String> compareData(HashMap<String, String> entry1, HashMap<String, String> entry2) {
+    static ArrayList<String> compareData(Entry entry1, Entry entry2) {
+        // if entry 1 and 2 are the same, then return null for no difference
         if (entry1.equals(entry2)) {
             return null;
         }
-        ArrayList<String> ret = new ArrayList<>();
-        for (String key : entry1.keySet()) {
-            String value1 = entry1.get(key);
-            String value2 = entry2.get(key);
-            if (value1.equals(value2) == false) {
-                ret.add(key);
-            }
-        }
-        return ret;
+        ArrayList<String> key_diff = entry1.compare(entry2);
+        return key_diff;
     }
 
-    static ArrayList<HashMap<String, String>> processFiles(ArrayList<HashMap<String, String>> array1,
-            ArrayList<HashMap<String, String>> array2, String[] uniqueCombi) {
-        ArrayList<HashMap<String, String>> exception = new ArrayList<>();
-        for (HashMap<String, String> entry1 : array1) {
+    static ArrayList<EntryException> processFiles(ArrayList<Entry> array1,
+            ArrayList<Entry> master, String[] uniqueCombi) {
+        ArrayList<EntryException> exception = new ArrayList<>();
+        for (Entry entry1 : master) {
             boolean present = false;
-            for (HashMap<String, String> entry2 : array2) {
+            for (Entry entry2 : array1) {
                 if (compareUniqueCombi(entry1, entry2, uniqueCombi)) {
+                    // Check if array1 is missing any data
                     present = true;
-                    ArrayList<String> diff = compareData(entry1, entry2);
-                    if (diff != null && diff.size() != 0) {
-                        String error = String.join("and", diff) + " mismatch";
-                        entry1.put("Error", error);
-                        exception.add(entry1);
+                    // Assuming that array1 contains the data in the master list
+                    // Check the rest of the columns to find any discreptancies
+                    ArrayList<String> key_diff = compareData(entry1, entry2);
+                    if (key_diff != null && key_diff.size() != 0) {
+                        String errorString = String.join("and", key_diff) + " mismatch";
+                        EntryException entryException = new EntryException(entry1, errorString);
+                        exception.add(entryException);
                     }
                     break;
                 }
             }
             if (present == false) {
-                entry1.put("Error", "Not found in other file");
-                exception.add(entry1);
+                // Finding Entry Exception 
+                String errorString = "Not found in " + array1.get(0).getFileName();
+                EntryException entryException = new EntryException(entry1, errorString);
+                exception.add(entryException);
             }
         }
         return exception;
@@ -163,7 +147,7 @@ public class App {
     public static void main(String[] args) {
 
         String fileName1 = "sample_file_1.csv";
-        String fileName2 = "sample_file_2.csv";
+        String fileName2 = "sample_file_3.csv";
         String uniqueCombi = "Customer ID#, Account No., Currency, Type";
 
         if (!checkFileValid(fileName1) || !checkFileValid(fileName2)) {
@@ -178,48 +162,61 @@ public class App {
             uniqueCombiArray[Arrays.asList(uniqueCombiArray).indexOf(i)] = i.strip();
         }
 
+        ArrayList<Entry> master = new ArrayList<>();
+
         // Read File 1
-        ArrayList<HashMap<String, String>> parsedFile1 = readFile(fileName1);
+        ArrayList<Entry> parsedFile1 = readFile(fileName1);
         String[] header1 = getFileHeader(parsedFile1.get(0));
         // Read File 2
-        ArrayList<HashMap<String, String>> parsedFile2 = readFile(fileName2);
+        ArrayList<Entry> parsedFile2 = readFile(fileName2);
         String[] header2 = getFileHeader(parsedFile2.get(0));
+
 
         // check same header
         if (checkSameHeaders(header1, header2)) {
             if (uniqueCombiArray.length != 0 && checkUniqueCombiInHeader(header1, uniqueCombiArray)) {
                 try {
                     FileWriter csvWriter = new FileWriter("exceptions.csv");
-                    ArrayList<String> remaindingHeaders = new ArrayList<>();
+                    ArrayList<String> remainingHeaders = new ArrayList<>();
+                    // Adding headers to an ArrayList that are not in unique combination
                     for (String h : header1) {
                         if (!Arrays.asList(uniqueCombiArray).contains(h)) {
-                            remaindingHeaders.add(h);
+                            remainingHeaders.add(h);
                         }
                     }
-                    String header = String.join(",", uniqueCombiArray) + "," + String.join(",", remaindingHeaders)
+                    String header = String.join(",", uniqueCombiArray) + "," + String.join(",", remainingHeaders)
                             + ",Error\n";
                     csvWriter.append(header);
 
-                    // 2 cases, missing entry, or wrong entry.
-                    ArrayList<HashMap<String, String>> exceptionsList = processFiles(parsedFile1, parsedFile2,
-                            uniqueCombiArray);
-                    ArrayList<HashMap<String, String>> exceptionsList2 = processFiles(parsedFile2, parsedFile1,
-                            uniqueCombiArray);
-                    for (HashMap<String, String> e : exceptionsList2) {
-                        if (!exceptionsList.contains(e)) {
-                            exceptionsList.add(e);
-                        }
+                    // Adding to master list
+                    for (Entry entry: parsedFile1){
+                        master.add(entry);
+                    }
+                    for (Entry entry: parsedFile2){
+                        master.add(entry);
                     }
 
-                    for (HashMap<String, String> h : exceptionsList) {
+                    // 2 cases, missing entry, or wrong entry.
+                    ArrayList<EntryException> exceptionsList = processFiles(parsedFile1, master,
+                            uniqueCombiArray);
+                    ArrayList<EntryException> exceptionsList2 = processFiles(parsedFile2, master,
+                            uniqueCombiArray);
+
+                    for (EntryException e : exceptionsList2) {
+                        // if (!exceptionsList.contains(e)) {
+                            exceptionsList.add(e);
+                        // }
+                    }
+
+                    for (EntryException h : exceptionsList) {
                         ArrayList<String> exception = new ArrayList<>();
                         for (String key : uniqueCombiArray) {
-                            exception.add(h.get(key));
+                            exception.add(h.getDict().get(key));
                         }
-                        for (String key : remaindingHeaders) {
-                            exception.add(h.get(key));
+                        for (String key : remainingHeaders) {
+                            exception.add(h.getDict().get(key));
                         }
-                        exception.add(h.get("Error"));
+                        exception.add(h.getDict().get("Error"));
                         csvWriter.append(String.join(",", exception) + "\n");
                     }
                     csvWriter.flush();
