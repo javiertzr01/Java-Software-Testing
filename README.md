@@ -4,7 +4,7 @@
 Student ID: 1005033**
 
 The goal of this software application is to compare 2 CSV files against a unique combination and output the mismatched entries in a new CSV file.  
-The entirety of this application uses Java and does not require any external libraries at this point in time.  
+The entirety of this application uses Java and does not require any external libraries at this point in time.    
 Note: Random Fuzz Testing was done in Python
 ## Use Case Diagram
 ![Use Case Diagram](https://i.imgur.com/Lhsx3r7.jpg)
