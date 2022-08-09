@@ -8,8 +8,11 @@ import org.junit.Test;
 public class AppTest {
     @Test
     public void testCheckFileValidPass(){
-        String file = "C:\\Users\\Javier\\Documents\\GitHub\\Software-Testing-Mini-Campaign\\sample_file_1_test.csv";
-        assertTrue(App.checkFileValid(file));
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("sample_file_1_test.csv").getFile());
+        String filePath = file.getAbsolutePath();
+        // String file1 = "C:\\Users\\Javier\\Documents\\GitHub\\Software-Testing-Mini-Campaign\\sample_file_1_test.csv";
+        assertTrue(App.checkFileValid(filePath));
     }
 
     @Test
@@ -32,16 +35,20 @@ public class AppTest {
 
     @Test
     public void testCheckFileInvalidFileExtension() {
-        String file = "C:\\Users\\Javier\\Documents\\GitHub\\Software-Testing-Mini-Campaign\\sample_file_1_test.xlsx";
-        assertFalse(App.checkFileValid(file));
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("sample_file_1.xlsx").getFile());
+        String filePath = file.getAbsolutePath();
+        assertFalse(App.checkFileValid(filePath));
     }
 
     @Test
     public void testGetNextLine(){
-        String file = "C:\\Users\\Javier\\Documents\\GitHub\\Software-Testing-Mini-Campaign\\sample_file_1_test.csv";
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("sample_file_1_test.csv").getFile());
+        String filePath = file.getAbsolutePath();
         String result = "hello";
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
+            BufferedReader reader = new BufferedReader(new FileReader(filePath));
             result = App.getNextLine(reader);
             System.out.println(result);
         } catch (Exception e) {
@@ -55,8 +62,10 @@ public class AppTest {
     public void entryCreation(){
         String[] headers = "Customer ID#,Account No.,Currency,Type,Balance".split(",");
         String[] data = "ID99,BOS8059799,SGD,CURRENT,208045".split(",");
-        String file = "C:\\Users\\Javier\\Documents\\GitHub\\Software-Testing-Mini-Campaign\\sample_file_1_test.csv";
-        Entry masterEntry = new Entry(headers, data, file);
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("sample_file_1_test.csv").getFile());
+        String filePath = file.getAbsolutePath();
+        Entry masterEntry = new Entry(headers, data, filePath);
 
         HashMap<String, String> dictionary = new HashMap<>();
 
@@ -66,15 +75,17 @@ public class AppTest {
 
         assertArrayEquals(headers, masterEntry.getHeader());
         assertEquals(dictionary, masterEntry.getDict());
-        assertEquals(file, masterEntry.getFileName());
+        assertEquals(filePath, masterEntry.getFileName());
     }
 
     @Test
     public void entryAddData(){
         String[] headers = "Customer ID#,Account No.,Currency,Type,Balance".split(",");
         String[] data = "ID99,BOS8059799,SGD,CURRENT,208045".split(",");
-        String file = "C:\\Users\\Javier\\Documents\\GitHub\\Software-Testing-Mini-Campaign\\sample_file_1_test.csv";
-        Entry masterEntry = new Entry(headers, data, file);
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("sample_file_1_test.csv").getFile());
+        String filePath = file.getAbsolutePath();
+        Entry masterEntry = new Entry(headers, data, filePath);
 
         HashMap<String, String> dictionary = new HashMap<>();
 
@@ -102,9 +113,11 @@ public class AppTest {
     public void testReadFile(){
         String[] headers = "Customer ID#,Account No.,Currency,Type,Balance".split(",");
         String[] data = "ID99,BOS8059799,SGD,CURRENT,208045".split(",");
-        String file = "C:\\Users\\Javier\\Documents\\GitHub\\Software-Testing-Mini-Campaign\\sample_file_1_test.csv";
-        ArrayList<Entry> result = App.readFile(file);
-        Entry temp = new Entry(headers, data, file);
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("sample_file_1_test.csv").getFile());
+        String filePath = file.getAbsolutePath();
+        ArrayList<Entry> result = App.readFile(filePath);
+        Entry temp = new Entry(headers, data, filePath);
         ArrayList<Entry> expected = new ArrayList<>();
         expected.add(temp);
         assertEquals(expected, result);
