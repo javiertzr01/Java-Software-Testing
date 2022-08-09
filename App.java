@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Arrays;
 
 public class App {
@@ -149,6 +148,15 @@ public class App {
         String fileName1 = "sample_file_1.csv";
         String fileName2 = "sample_file_3.csv";
         String uniqueCombi = "Customer ID#, Account No., Currency, Type";
+
+        if (args.length == 3){
+            fileName1 = args[0];
+            fileName2 = args[1];
+            uniqueCombi = args[2];
+        }
+        else{
+            System.out.println("No args input, using default values");
+        }
 
         if (!checkFileValid(fileName1) || !checkFileValid(fileName2)) {
             System.out.println("File does not exist");

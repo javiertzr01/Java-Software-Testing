@@ -6,10 +6,6 @@ public class Entry {
     private HashMap<String, String> dict = new HashMap<>();
     private String fileName;
 
-    public Entry(){
-        headers = null;
-    }
-
     public Entry(String[] headers, String[] data, String fileName){
         this.headers = headers;
         this.fileName = fileName;
@@ -44,8 +40,8 @@ public class Entry {
         return this.fileName;
     }
 
-    public boolean equals(Entry entry){
-        HashMap<String, String> entryDict = entry.getDict();
+    public boolean equals(Object entry){
+        HashMap<String, String> entryDict = ((Entry) entry).getDict();
         try {
             for (String i: headers){
                 if(dict.get(i).equals(entryDict.get(i)) == false){
@@ -69,9 +65,9 @@ public class Entry {
         return true;
     }
 
-    public ArrayList<String> compare(Entry entry){
+    public ArrayList<String> compare(Object entry){
         ArrayList<String> ret = new ArrayList<>();
-        HashMap<String, String> entryDict = entry.getDict();
+        HashMap<String, String> entryDict = ((Entry) entry).getDict();
         for (String key: dict.keySet()){
             if(this.dict.get(key).equals(entryDict.get(key)) == false){
                 ret.add(key);
