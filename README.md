@@ -91,8 +91,8 @@ This implementation of random fuzzing was done in Python and can be accessed via
 You should see a progress bar indicating the number of tests done  
 ![Progress Bar](https://i.imgur.com/HdLztMj.png)
 4. Once completed, there are 2 cases  
-> Success Case:  
+> **Success Case:**  
 > ![Success](https://i.imgur.com/i89rW8u.png)
 
-> Failure Case:  
+> **Failure Case:**  
 > Output will print "Random Fuzzing Failed"  
