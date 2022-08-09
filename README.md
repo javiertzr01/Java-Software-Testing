@@ -4,7 +4,7 @@
 Student ID: 1005033**
 
 The goal of this software application is to compare 2 CSV files against a unique combination and output the mismatched entries in a new CSV file.  
-The entirety of this application uses Java and does not require any external libraries at this point in time.    
+The entirety of this application uses Java and does not require any external libraries at this point in time.  
 Note: Random Fuzz Testing was done in Python
 ## Use Case Diagram
 ![Use Case Diagram](https://i.imgur.com/Lhsx3r7.jpg)
@@ -15,7 +15,7 @@ Clone this repository into your desired folder
 
 ## Usage
 ### Method 1: Changing Default Files In Code
-1. Add your 2 desired csv files to the same folder
+1. Add your 2 desired csv files to the same folder  
 **Note: It is also possible to skip step 1, if you use a `path` instead of names in step 2**
 2. Open App.java and replace the names of the csv file in the code
 ![Replace <Insert First CSV File Name> and <Insert Second CSV File Name>](https://i.imgur.com/ZUMZXhS.png)
