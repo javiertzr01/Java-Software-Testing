@@ -27,7 +27,7 @@ Clone this repository into your desired folder
  **Note: It is also possible to skip step 1, if you use a  `path`  instead of names in step 2**
  2. Open command prompt in the folder that contains these files
  3. Execute `java App <fileName1> <fileName2> <unique combination>`
-> Example: `java App sample_file_1.csv sample_file2.csv "Customer ID#, Account No., Currency, Type"`
+> Example: `java App sample_file_1.csv sample_file2.csv "Customer ID#, Account No., Currency, Type"`  
 >**Note: You can also use `path` instead of file names** 
 4. A CSV file named "exceptions.csv" should be created/modified within the same folder, containing the relevant outputs
 ## Testing
