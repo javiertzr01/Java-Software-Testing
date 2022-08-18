@@ -1,4 +1,5 @@
 
+
 ## Software-Testing-Mini-Campaign
 **Name: Javier Teo
 Student ID: 1005033**
@@ -96,3 +97,8 @@ You should see a progress bar indicating the number of tests done
 
 > **Failure Case:**  
 > Output will print "Random Fuzzing Failed"  
+### Fuzzing Other Group Members Code
+The random fuzzer used in the section above was replicated and used to do random fuzzing on my other group member's codes. There are placed in the `/Fuzzing Other Members/<member>/` directory.
+
+#### Results:
+If there are no other files in the directory besides the random fuzzing python file, it means that no bugs were found.
